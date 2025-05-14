@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🔐 Application de Chiffrement</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <h1>🔐 Sécurisez vos fichiers</h1>
+
+      <label for="file">📁 Choisissez un fichier :</label>
+      <input type="file" id="file">
+
+      <label for="key">🔑 Clé de chiffrement :</label>
+      <input type="text" id="key" placeholder="Entrez une clé ou scannez-la">
+      <div id="keyStrength" style="margin-top: 8px; font-weight: bold;"></div>
+
+      <div class="button-group">
+        <button onclick="generateStrongKey()">🎲 Générer une clé forte</button>
+        <button onclick="generateQRCodeFromKey()">📷 Générer QR</button>
+      </div>
+
+      <div id="qrDisplay"></div>
+
+      <div class="button-group">
+        <button onclick="startScanner()">📲 Scanner une clé QR</button>
+        <button onclick="stopScanner()">🛑 Stop scan</button>
+      </div>
+
+      <div id="reader"></div>
+
+      <div class="button-group">
+        <button class="primary" onclick="analyseIAEtChiffrer()">🔐 Chiffrer </button>
+        <button class="secondary" onclick="handleDecrypt()">🔓 Déchiffrer</button>
+      </div>
+
+      <div id="status" style="margin-top: 20px; font-weight: bold;"></div>
+    </div>
+  </div>
+
+  <!-- Boîte modale IA -->
+  <div id="confirmModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <p id="modalMessage">⚠️ Ce fichier semble sensible. Voulez-vous continuer ?</p>
+      <div class="modal-actions">
+        <button id="confirmYes" class="primary">✅ Oui, chiffrer</button>
+        <button id="confirmNo" class="secondary">❌ Non, annuler</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

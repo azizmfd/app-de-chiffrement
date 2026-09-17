@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>🛠️ Mots sensibles</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    h2 { margin-bottom: 10px; }
+    ul { list-style-type: none; padding: 0; }
+    li { margin-bottom: 6px; }
+    button { margin-left: 10px; }
+    input[type="text"] { padding: 5px; margin-right: 5px; }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h2>🔐 Édition des mots sensibles</h2>
+  <p>Ce sont les mots surveillés par l'analyse IA avant le chiffrement.</p>
+
+  <ul id="wordList"></ul>
+
+  <input type="text" id="newWord" placeholder="Nouveau mot...">
+  <button onclick="addWord()">➕ Ajouter</button>
+  <button onclick="saveWords()">💾 Sauvegarder</button>
+
+  <p id="feedback"></p>
+
+  <script>
+    let mots = [];
+
+    function fetchWords() {
+      fetch('/api/keywords')
+        .then(res => res.json())
+        .then(data => {
+          mots = data;
+          renderList();
+        });
+    }
+
+    function renderList() {
+      const ul = document.getElementById('wordList');
+      ul.innerHTML = '';
+      mots.forEach((mot, index) => {
+        const li = document.createElement('li');
+        li.textContent = mot;
+        const btn = document.createElement('button');
+        btn.textContent = '❌ Supprimer';
+        btn.onclick = () => {
+          mots.splice(index, 1);
+          renderList();
+        };
+        li.appendChild(btn);
+        ul.appendChild(li);
+      });
+    }
+
+    function addWord() {
+      const newWord = document.getElementById('newWord').value.trim();
+      if (newWord && !mots.includes(newWord)) {
+        mots.push(newWord);
+        document.getElementById('newWord').value = '';
+        renderList();
+      }
+    }
+
+    function saveWords() {
+      fetch('/api/keywords', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(mots)
+      })
+      .then(res => res.json())
+      .then(data => {
+        const feedback = document.getElementById('feedback');
+        if (data.success) {
+          feedback.textContent = '✅ Liste enregistrée avec succès.';
+          feedback.className = 'success';
+        } else {
+          feedback.textContent = '❌ Erreur : ' + data.error;
+          feedback.className = 'error';
+        }
+      });
+    }
+
+    fetchWords();
+  </script>
+</body>
+</html>

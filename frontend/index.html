@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🔐 Secure Your Files</title>
+
+  <!-- Fonts Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&family=Inter&display=swap" rel="stylesheet" />
+
+  <!-- Animate.css & AOS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="header" data-aos="fade-down" data-aos-delay="100">
+      <h1>🔐 <span class="highlight">Secure</span> Your Files Easily</h1>
+      <p class="subtitle">Encryption & decryption with advanced protection and AI detection</p>
+    </header>
+
+    <section class="file-section" data-aos="fade-up" data-aos-delay="200">
+      <label for="file" class="custom-file-upload" tabindex="0" role="button" aria-label="Select a file">
+        📁 Select a file
+      </label>
+      <input type="file" id="file" class="input-file" style="display:none;" />
+      <span id="fileName" class="file-name"></span>
+    </section>
+
+    <section class="key-section" data-aos="fade-up" data-aos-delay="300">
+      <label for="key" class="input-label">🔑 Encryption Key</label>
+      <div class="key-input-group">
+        <input type="text" id="key" placeholder="Enter or scan the key" autocomplete="off" />
+        <button class="btn btn-icon" title="Generate strong key" onclick="generateStrongKey()" aria-label="Generate strong key">
+          ⚡
+        </button>
+        <button class="btn btn-icon" title="Generate QR Code" onclick="generateQRCodeFromKey()" aria-label="Generate QR Code">
+          📷
+        </button>
+      </div>
+      <div id="keyStrength" class="key-strength"></div>
+      <div id="qrDisplay" class="qr-display"></div>
+    </section>
+
+    <section class="scanner-section" data-aos="fade-up" data-aos-delay="400">
+      <button class="btn btn-primary" onclick="startScanner()">📲 Start QR Scanner</button>
+      <button class="btn btn-secondary" onclick="stopScanner()">🛑 Stop Scanner</button>
+      <div id="reader" class="qr-scanner"></div>
+      <div id="status" class="status-message"></div>
+    </section>
+
+    <section class="action-section" data-aos="fade-up" data-aos-delay="500">
+      <button class="btn btn-success" onclick="analyseIAEtChiffrer()">🔐 Encrypt</button>
+      <button class="btn btn-danger" onclick="handleDecrypt()">🔓 Decrypt</button>
+    </section>
+  </main>
+
+  <!-- Modal Confirmation -->
+  <div id="confirmModal" class="modal">
+    <div class="modal-content" data-aos="flip-down">
+      <p id="modalMessage">⚠️ This file appears sensitive. Do you want to continue?</p>
+      <div class="modal-actions">
+        <button id="confirmYes" class="btn btn-success">✅ Yes, Encrypt</button>
+        <button id="confirmNo" class="btn btn-secondary">❌ No, Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof AOS !== 'undefined') {
+        AOS.init({ duration: 900, once: true });
+      }
+    });
+  </script>
+</body>
+</html>

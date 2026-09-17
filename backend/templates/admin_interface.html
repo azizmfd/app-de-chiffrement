@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>🔐 Admin IPs</title>
+  <style>
+    body { font-family: sans-serif; padding: 30px; background: #f9f9f9; }
+    table { width: 100%; border-collapse: collapse; background: white; margin-top: 20px; }
+    th, td { border: 1px solid #ccc; padding: 10px; }
+    th { background: #eee; }
+    .unblock-btn {
+      background-color: #d9534f;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      cursor: pointer;
+    }
+    .unblock-btn:hover {
+      background-color: #c9302c;
+    }
+  </style>
+</head>
+<body>
+  <h2>🔐 Liste des IPs bloquées</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Adresse IP</th>
+        <th>Niveau</th>
+        <th>Dernier échec</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ip, info in ip_data.items() %}
+      <tr>
+        <td>{{ ip }}</td>
+        <td>{{ info.level }}</td>
+        <td>{{ info.last_fail }}</td>
+        <td>
+          <a href="/admin/unblock/{{ ip }}?pass=admin123">
+            <button class="unblock-btn">Débloquer</button>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
